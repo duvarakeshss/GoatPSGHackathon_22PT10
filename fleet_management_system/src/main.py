@@ -1,66 +1,95 @@
-#!/usr/bin/env python3
-"""
-Fleet Management System with Traffic Negotiation for Multi-Robots
-Main entry point for the application
-"""
-
 import os
 import sys
-import logging
+import time
+import pygame
 import argparse
 
-from models.nav_graph import NavGraph
-from controllers.fleet_manager import FleetManager
-from controllers.traffic_manager import TrafficManager
-from gui.fleet_gui import FleetGUI
-from utils.helpers import setup_logging
+# Add root directory to system path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-def parse_arguments():
-    """Parse command line arguments"""
-    parser = argparse.ArgumentParser(description='Fleet Management System')
-    parser.add_argument('--nav-graph', type=str, default='data/nav_graph.json',
+# Import required modules
+from src.models.nav_graph import NavGraph
+from src.models.robot import Robot
+from src.controllers.fleet_manager import FleetManager
+from src.controllers.traffic_manager import TrafficManager
+from src.gui.fleet_gui import FleetGUI
+
+def run():
+    """Main entry point for the Fleet Management System."""
+    # Set up command line argument parser
+    cmd_parser = argparse.ArgumentParser(description='Fleet Management System')
+    cmd_parser.add_argument('--nav_graph', type=str, default='data/nav_graph.json',
                         help='Path to navigation graph JSON file')
-    parser.add_argument('--log-file', type=str, default='src/logs/fleet_logs.txt',
+    cmd_parser.add_argument('--log_file', type=str, default='src/logs/fleet_logs.txt',
                         help='Path to log file')
-    parser.add_argument('--debug', action='store_true',
-                        help='Enable debug logging')
-    return parser.parse_args()
-
-def load_nav_graph(file_path):
-    """Load navigation graph from JSON file"""
-    if not os.path.exists(file_path):
-        logging.error(f"Navigation graph file {file_path} not found.")
-        sys.exit(1)
+    cmd_parser.add_argument('--width', type=int, default=1000,
+                        help='Window width')
+    cmd_parser.add_argument('--height', type=int, default=800,
+                        help='Window height')
+    
+    # Parse command line arguments
+    config = cmd_parser.parse_args()
+    
+    # Create log directory if it doesn't exist
+    os.makedirs(os.path.dirname(config.log_file), exist_ok=True)
+    
+    # Initialize application components
     try:
-        return NavGraph(file_path)
+        # Load navigation map from file
+        navigation_map = NavGraph(config.nav_graph)
+        
+        # Create traffic control system
+        movement_coordinator = TrafficManager(navigation_map)
+        
+        # Create fleet management controller
+        robot_controller = FleetManager(navigation_map, config.log_file)
+        
+        # Set up graphical interface
+        display = FleetGUI(config.width, config.height, navigation_map, robot_controller, movement_coordinator)
+        
+        # Display startup information
+        display.add_message("Fleet Management System initialized")
+        display.add_message("Press S for Spawn mode, A for Assign mode")
+        display.add_log("System started")
+        display.add_log(f"Loaded nav graph with {len(navigation_map.vertices)} vertices")
+        
+        # Begin main application loop
+        is_active = True
+        previous_timestamp = time.time()
+        
+        while is_active:
+            # Calculate time between frames
+            current_timestamp = time.time()
+            frame_time = current_timestamp - previous_timestamp
+            previous_timestamp = current_timestamp
+            
+            # Process user input and window events
+            is_active = display.handle_events()
+            
+            # Update system state
+            robot_controller.update(frame_time)
+            traffic_report = movement_coordinator.update()
+            display.update(frame_time)
+            
+            # Record significant traffic events
+            if traffic_report['deadlocks_resolved'] > 0:
+                display.add_log(f"Resolved {traffic_report['deadlocks_resolved']} traffic deadlocks")
+            
+            # Draw updated state to screen
+            display.render()
+            
+            # Maintain consistent frame rate (60fps)
+            pygame.time.delay(60)
+        
+        # Perform cleanup when exiting
+        pygame.quit()
+        
     except Exception as e:
-        logging.error(f"Failed to load navigation graph: {e}")
+        # Handle any errors
+        print(f"Error: {e}")
+        pygame.quit()
         sys.exit(1)
 
-def main():
-    """Main entry point for the application"""
-    args = parse_arguments()
-    
-    os.makedirs(os.path.dirname(args.log_file), exist_ok=True)
-    setup_logging(args.log_file, console_level=logging.DEBUG if args.debug else logging.INFO)
-    
-    logging.info(f"Loading navigation graph from {args.nav_graph}")
-    nav_graph = load_nav_graph(args.nav_graph)
-    
-    logging.info(f"Loaded graph with {len(nav_graph.vertices)} vertices and {len(nav_graph.lanes)} lanes")
-    
-    logging.info("Initializing traffic manager")
-    traffic_manager = TrafficManager(nav_graph)
-    
-    logging.info("Initializing fleet manager")
-    fleet_manager = FleetManager(nav_graph, traffic_manager)
-    
-    logging.info("Starting GUI")
-    try:
-        gui = FleetGUI(nav_graph, fleet_manager, traffic_manager)
-        gui.run()
-    except Exception as e:
-        logging.error(f"Error running GUI: {e}")
-
+# Execute main function when script is run directly
 if __name__ == "__main__":
-    main()
+    run()
