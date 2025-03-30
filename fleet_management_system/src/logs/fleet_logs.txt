@@ -573,3 +573,26 @@ Fleet Management System Log - 2025-03-30 21:17:50
 Fleet Management System Log - 2025-03-30 21:36:39
 
 [2025-03-30 21:36:39] [system] Fleet Management System Started
+Fleet Management System Log - 2025-03-30 21:46:00
+
+[2025-03-30 21:46:00] [system] Fleet Management System Started
+[2025-03-30 21:46:08] [robot_0] Spawned at vertex 3
+[2025-03-30 21:46:10] [robot_1] Spawned at vertex 7
+[2025-03-30 21:46:13] [robot_2] Spawned at vertex 6
+[2025-03-30 21:46:17] [robot_0] Selected for task assignment
+[2025-03-30 21:46:18] [robot_0] Assigned navigation task from vertex 3 to 2
+[2025-03-30 21:46:20] [robot_1] Selected for task assignment
+[2025-03-30 21:46:24] [robot_1] Assigned navigation task from vertex 7 to 8
+[2025-03-30 21:46:25] [robot_2] Selected for task assignment
+[2025-03-30 21:46:26] [robot_0] State: moving, Event: moving_to_2
+[2025-03-30 21:46:27] [robot_2] Assigned navigation task from vertex 6 to 5
+[2025-03-30 21:46:29] [robot_0] State: completed, Event: reached_destination
+[2025-03-30 21:46:30] [robot_3] Spawned at vertex 1
+[2025-03-30 21:46:32] [robot_1] State: moving, Event: moving_to_8
+[2025-03-30 21:46:34] [robot_2] Failed to assign navigation task to vertex 3
+[2025-03-30 21:46:34] [robot_1] State: completed, Event: reached_destination
+[2025-03-30 21:46:35] [robot_2] State: moving, Event: moving_to_5
+[2025-03-30 21:46:37] [robot_2] State: completed, Event: reached_destination
+Fleet Management System Log - 2025-03-30 21:47:27
+
+[2025-03-30 21:47:27] [system] Fleet Management System Started

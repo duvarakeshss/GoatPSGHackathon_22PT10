@@ -15,7 +15,6 @@ from src.controllers.traffic_manager import TrafficManager
 from src.gui.fleet_gui import FleetGUI
 
 def run():
-    """Main entry point for the Fleet Management System."""
     # Set up command line argument parser
     cmd_parser = argparse.ArgumentParser(description='Fleet Management System')
     cmd_parser.add_argument('--nav_graph', type=str, default='data/nav_graph.json',
