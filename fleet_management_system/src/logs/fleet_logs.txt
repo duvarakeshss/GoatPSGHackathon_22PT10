@@ -596,3 +596,36 @@ Fleet Management System Log - 2025-03-30 21:46:00
 Fleet Management System Log - 2025-03-30 21:47:27
 
 [2025-03-30 21:47:27] [system] Fleet Management System Started
+Fleet Management System Log - 2025-03-30 21:48:35
+
+[2025-03-30 21:48:35] [system] Fleet Management System Started
+[2025-03-30 21:48:42] [robot_0] Spawned at vertex 1
+[2025-03-30 21:48:43] [robot_1] Spawned at vertex 7
+[2025-03-30 21:48:45] [robot_2] Spawned at vertex 6
+[2025-03-30 21:48:50] [robot_0] Selected for task assignment
+[2025-03-30 21:48:52] [robot_0] Assigned navigation task from vertex 1 to 0
+[2025-03-30 21:48:54] [robot_2] Selected for task assignment
+[2025-03-30 21:48:55] [robot_2] Failed to assign navigation task to vertex 0
+[2025-03-30 21:48:57] [robot_1] Selected for task assignment
+[2025-03-30 21:48:59] [robot_1] Selected for task assignment
+[2025-03-30 21:49:00] [robot_0] State: moving, Event: moving_to_0
+[2025-03-30 21:49:00] [robot_1] Assigned navigation task from vertex 7 to 9
+[2025-03-30 21:49:02] [robot_0] State: completed, Event: reached_destination
+[2025-03-30 21:49:07] [robot_0] Selected for task assignment
+[2025-03-30 21:49:08] [robot_1] State: moving, Event: moving_to_8
+[2025-03-30 21:49:09] [robot_0] Assigned navigation task from vertex 0 to 2
+[2025-03-30 21:49:11] [robot_1] State: moving, Event: moving_to_9
+[2025-03-30 21:49:11] [robot_0] State: moving, Event: moving_to_1
+[2025-03-30 21:49:14] [robot_0] Failed to assign navigation task to vertex 4
+[2025-03-30 21:49:16] [robot_1] State: completed, Event: reached_destination
+[2025-03-30 21:49:17] [robot_0] Failed to assign navigation task to vertex 4
+[2025-03-30 21:49:20] [robot_0] State: moving, Event: moving_to_3
+[2025-03-30 21:49:21] [robot_3] Spawned at vertex 4
+[2025-03-30 21:49:25] [robot_3] Selected for task assignment
+[2025-03-30 21:49:26] [robot_3] Failed to assign navigation task to vertex 0
+[2025-03-30 21:49:28] [robot_0] State: moving, Event: moving_to_13
+[2025-03-30 21:49:29] [robot_3] Selected for task assignment
+[2025-03-30 21:49:30] [robot_3] Assigned navigation task from vertex 4 to 5
+[2025-03-30 21:49:34] [robot_3] State: completed, Event: reached_destination
+[2025-03-30 21:49:35] [robot_0] State: moving, Event: moving_to_2
+[2025-03-30 21:49:39] [robot_0] State: completed, Event: reached_destination
